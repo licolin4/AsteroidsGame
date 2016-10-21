@@ -1,10 +1,12 @@
 //your variable declarations here
 Spaceship bob;
+boolean isHyperspace = false;
 public void setup() 
 {
   //your code here
   size(500,500);
   bob = new Spaceship();
+  background(0);
 }
 public void draw() 
 {
@@ -61,6 +63,30 @@ class Spaceship extends Floater
   public double getPointDirection() {
     return myPointDirection;
   }
+}
+int countDown = 60;
+void keyPressed()
+{
+  if (key == 'h')
+  {
+    bob.setDirectionX(0);
+    bob.setX((int)(Math.random() * width));
+    bob.setY((int)(Math.random() * height));
+    bob.setPointDirection((int)(Math.random() * 360));
+    bob.setDirectionX(0);
+    bob.setDirectionY(0);
+    isHyperspace = true;
+    countDown = 60;
+  }
+}
+class Star
+{
+  double numStars;
+  Star()
+  {
+    numStars = Math.random()*300;
+  }
+
 }
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
