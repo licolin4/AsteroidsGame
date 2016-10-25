@@ -1,4 +1,5 @@
 //your variable declarations here
+Particle[] one;
 Spaceship bob;
 boolean isHyperspace = false;
 public void setup() 
@@ -6,13 +7,22 @@ public void setup()
   //your code here
   size(500,500);
   bob = new Spaceship();
-  background(0);
+  one = new Particle[100];
+  for(int i = 0; i < one.length; i++)
+  {
+  one[i]= new NormalParticle();
+  }
 }
 public void draw() 
 {
   //your code here
+  background(0);
   bob.move();
   bob.show();
+  for(int i = 0; i < one.length; i++)
+  {
+    one[i].show();
+  }
 }
 class Spaceship extends Floater  
 {   
@@ -21,13 +31,13 @@ class Spaceship extends Floater
  {
   corners = 3;
   xCorners = new int[corners];
-  xCorners[0] = 16;
-  xCorners[1] = -8;
-  xCorners[2] = -8;
+  xCorners[0] = -20;
+  xCorners[1] = 10;
+  xCorners[2] = -20;
   yCorners = new int[corners];
-  yCorners[0] = 0;
-  yCorners[1] = 8;
-  yCorners[2] = -8;
+  yCorners[0] = 5;
+  yCorners[1] = 0;
+  yCorners[2] = -10;
   myColor = color(255,255,255);
   myCenterX = myCenterY = 250; //holds center coordinates
   myDirectionX = myDirectionY = 0; //holds x and y coordinates of the vector for direction of travel
@@ -78,15 +88,6 @@ void keyPressed()
     isHyperspace = true;
     countDown = 60;
   }
-}
-class Star
-{
-  double numStars;
-  Star()
-  {
-    numStars = Math.random()*300;
-  }
-
 }
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
@@ -164,4 +165,59 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
     endShape(CLOSE);  
   }   
 } 
-
+class Stars
+{
+  int x[];
+  int y[];
+  int s[];
+  int c[];
+  Stars()
+  {
+    x = new int[200];
+    y = new int[200];
+    s = new int[200];
+    c = new int[200];
+    for(int i = 0; i< 200; i++)
+    {
+      x[i] = (int)(Math.random() * width);
+      y[i] = (int)(Math.random() * width);
+      s[i] = (int)(Math.random() * 5) + 1;
+      c[i] = color((int)(Math.random()*256),(int)(Math.random()*256),(int)(Math.random()*256));
+    }
+  }
+  void show()
+  {
+    
+    for(int i = 0; i< 200; i++)
+    {
+      stroke(c[i]);
+      strokeWeight(s[i]);
+      point(x[i],y[i]);
+    }
+    strokeWeight(1);
+  }
+}
+class NormalParticle implements Particle
+{
+  double myX,myY,myColor,mySize,speed,angle;
+  NormalParticle()
+  {
+    myX=Math.random()*500;
+    myY=Math.random()*500;
+    mySize=Math.random()*10+1;
+    myColor=color((int)(Math.random()*256),(int)(Math.random()*256),(int)(Math.random()*256));
+    speed=Math.random()*10;
+    angle=Math.PI;
+  }
+  public void show()
+  { 
+    stroke((float)myColor);
+    ellipse((float)myX,(float)myY,(float)mySize,(float)mySize);
+  }
+  //your code here
+}
+interface Particle
+{
+  //your code here
+  public void show();
+}
