@@ -1,27 +1,50 @@
 //your variable declarations here
-Particle[] one;
+Star[] stars;
 Spaceship bob;
 boolean isHyperspace = false;
+boolean isAccelerating = false;
+boolean isRotatingLeft = false;
+boolean isRotatingRight = false;
+
 public void setup() 
 {
   //your code here
   size(500,500);
   bob = new Spaceship();
-  one = new Particle[100];
-  for(int i = 0; i < one.length; i++)
+  stars = new Star[100];
+  for(int i = 0; i < stars.length; i++)
   {
-  one[i]= new NormalParticle();
+  stars[i]= new StarParticle();
   }
 }
 public void draw() 
 {
   //your code here
-  background(0);
-  bob.move();
-  bob.show();
-  for(int i = 0; i < one.length; i++)
+  if(!isHyperspace)
   {
-    one[i].show();
+  background(0);
+  }
+  else
+  {
+    fill(0,0,0,10);
+    stroke(0,0,0,10);
+    rect(0,0,width,height);
+    countDown--;
+    if(countDown == 0)
+    {
+      isHyperspace = false;
+    }
+  }
+  if(keyPressed == true && key == ' ') 
+    countDown = 60;
+  bob.show();
+  bob.move();
+  if(isAccelerating == true)bob.accelerate(.03);
+  if(isRotatingLeft == true)bob.rotate(-3);
+  if(isRotatingRight == true)bob.rotate(3);
+  for(int i = 0; i < stars.length; i++)
+  {
+    stars[i].show();
   }
 }
 class Spaceship extends Floater  
@@ -29,15 +52,19 @@ class Spaceship extends Floater
   //your code here
  public Spaceship() 
  {
-  corners = 3;
-  xCorners = new int[corners];
-  xCorners[0] = -20;
-  xCorners[1] = 10;
-  xCorners[2] = -20;
-  yCorners = new int[corners];
-  yCorners[0] = 5;
-  yCorners[1] = 0;
-  yCorners[2] = -10;
+    corners = 5;
+    xCorners = new int[corners];
+    xCorners[0] = -20;
+    xCorners[1] = 10;
+    xCorners[2] = -20;
+    xCorners[3] = 10;
+    xCorners[4] = -20;
+    yCorners = new int[corners];
+    yCorners[0] = 5;
+    yCorners[1] = -20;
+    yCorners[2] = -10;
+    yCorners[3] = 10;
+    yCorners[4] = -20;
   myColor = color(255,255,255);
   myCenterX = myCenterY = 250; //holds center coordinates
   myDirectionX = myDirectionY = 0; //holds x and y coordinates of the vector for direction of travel
@@ -74,20 +101,28 @@ class Spaceship extends Floater
     return myPointDirection;
   }
 }
-int countDown = 60;
+int countDown = 0;
 void keyPressed()
 {
-  if (key == 'h')
+  if(key == 'w') isAccelerating = true;
+  if(key == 'a') isRotatingLeft = true;
+  if(key == 'd') isRotatingRight = true;
+  if(key == ' ')
   {
-    bob.setDirectionX(0);
     bob.setX((int)(Math.random() * width));
     bob.setY((int)(Math.random() * height));
     bob.setPointDirection((int)(Math.random() * 360));
     bob.setDirectionX(0);
     bob.setDirectionY(0);
     isHyperspace = true;
-    countDown = 60;
+    countDown = 1;
   }
+}
+void keyReleased()
+{
+  if(key == 'w') isAccelerating = false;
+  if(key == 'a') isRotatingLeft = false;
+  if(key == 'd') isRotatingRight = false;
 }
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
@@ -197,10 +232,10 @@ class Stars
     strokeWeight(1);
   }
 }
-class NormalParticle implements Particle
+class StarParticle implements Star
 {
   double myX,myY,myColor,mySize,speed,angle;
-  NormalParticle()
+  StarParticle()
   {
     myX=Math.random()*500;
     myY=Math.random()*500;
@@ -216,8 +251,12 @@ class NormalParticle implements Particle
   }
   //your code here
 }
-interface Particle
+interface Star
 {
   //your code here
   public void show();
 }
+
+
+
+
