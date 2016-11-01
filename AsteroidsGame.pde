@@ -1,6 +1,7 @@
 //your variable declarations here
 Star[] stars;
 Spaceship bob;
+Asteroid[] joe;
 boolean isHyperspace = false;
 boolean isAccelerating = false;
 boolean isRotatingLeft = false;
@@ -12,6 +13,11 @@ public void setup()
   size(500,500);
   bob = new Spaceship();
   stars = new Star[100];
+  joe = new Asteroid[15];
+  for(int i = 0; i < joe.length; i++)
+  {
+    joe[i]= new Asteroid();
+  }
   for(int i = 0; i < stars.length; i++)
   {
   stars[i]= new StarParticle();
@@ -42,6 +48,11 @@ public void draw()
   if(isAccelerating == true)bob.accelerate(.03);
   if(isRotatingLeft == true)bob.rotate(-3);
   if(isRotatingRight == true)bob.rotate(3);
+  for(int i = 0; i < joe.length; i++)
+  {
+    joe[i].show();
+    joe[i].move();
+  }
   for(int i = 0; i < stars.length; i++)
   {
     stars[i].show();
@@ -200,38 +211,6 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
     endShape(CLOSE);  
   }   
 } 
-class Stars
-{
-  int x[];
-  int y[];
-  int s[];
-  int c[];
-  Stars()
-  {
-    x = new int[200];
-    y = new int[200];
-    s = new int[200];
-    c = new int[200];
-    for(int i = 0; i< 200; i++)
-    {
-      x[i] = (int)(Math.random() * width);
-      y[i] = (int)(Math.random() * width);
-      s[i] = (int)(Math.random() * 5) + 1;
-      c[i] = color((int)(Math.random()*256),(int)(Math.random()*256),(int)(Math.random()*256));
-    }
-  }
-  void show()
-  {
-    
-    for(int i = 0; i< 200; i++)
-    {
-      stroke(c[i]);
-      strokeWeight(s[i]);
-      point(x[i],y[i]);
-    }
-    strokeWeight(1);
-  }
-}
 class StarParticle implements Star
 {
   double myX,myY,myColor,mySize,speed,angle;
@@ -256,7 +235,62 @@ interface Star
   //your code here
   public void show();
 }
-
+class Asteroid extends Floater
+{
+  public Asteroid()
+  {
+    corners = 6;
+    xCorners = new int[corners];
+    xCorners[0] = -11;
+    xCorners[1] = 7;
+    xCorners[2] = 13;
+    xCorners[3] = 6;
+    xCorners[4] = -11;
+    xCorners[5] = -5;
+    yCorners = new int[corners];
+    yCorners[0] = -8;
+    yCorners[1] = -8;
+    yCorners[2] = 0;
+    yCorners[3] = 10;
+    yCorners[4] = 8;
+    yCorners[5] = 0;
+    myColor = color(255,255,255);
+    myCenterX = Math.random()*500;
+    myCenterY = Math.random()*500; //holds center coordinates
+    myDirectionX = myDirectionY = 0; //holds x and y coordinates of the vector for direction of travel
+    myPointDirection = Math.random()*360;  
+  } 
+  public void setX(int x) {
+    myCenterX = x;
+  }
+  public int getX() {
+    return (int)myCenterX;
+  }
+  public void setY(int y) {
+    myCenterY = y;
+  }
+  public int getY() {
+    return (int)myCenterY;
+  }
+  public void setDirectionX(double x) {
+    myDirectionX = x;
+  }
+  public double getDirectionX() {
+    return myDirectionX;
+  }
+  public void setDirectionY(double y) {
+    myDirectionY = y;
+  }
+  public double getDirectionY() {
+    return myDirectionY;
+  }
+  public void setPointDirection(int degrees) {
+    myPointDirection = degrees;
+  }
+  public double getPointDirection() {
+    return myPointDirection;
+  }
+}
 
 
 
