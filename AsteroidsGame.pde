@@ -255,7 +255,7 @@ class Asteroid extends Floater
     yCorners[3] = 10;
     yCorners[4] = 8;
     yCorners[5] = 0;
-    myColor = color(10,10,10);
+    myColor = color(100,100,100);
     myCenterX = Math.random()*500;
     myCenterY = Math.random()*500; //holds center coordinates
     myDirectionX = myDirectionY = 0; //holds x and y coordinates of the vector for direction of travel
