@@ -13,7 +13,7 @@ public void setup()
   size(500,500);
   bob = new Spaceship();
   stars = new Star[100];
-  joe = new Asteroid[15];
+  joe = new Asteroid[50];
   for(int i = 0; i < joe.length; i++)
   {
     joe[i]= new Asteroid();
@@ -237,6 +237,7 @@ interface Star
 }
 class Asteroid extends Floater
 {
+  private double rotSpeed;
   public Asteroid()
   {
     corners = 6;
@@ -246,7 +247,7 @@ class Asteroid extends Floater
     xCorners[2] = 13;
     xCorners[3] = 6;
     xCorners[4] = -11;
-    xCorners[5] = -5;
+    xCorners[5] = -15;
     yCorners = new int[corners];
     yCorners[0] = -8;
     yCorners[1] = -8;
@@ -254,11 +255,12 @@ class Asteroid extends Floater
     yCorners[3] = 10;
     yCorners[4] = 8;
     yCorners[5] = 0;
-    myColor = color(255,255,255);
+    myColor = color(10,10,10);
     myCenterX = Math.random()*500;
     myCenterY = Math.random()*500; //holds center coordinates
     myDirectionX = myDirectionY = 0; //holds x and y coordinates of the vector for direction of travel
     myPointDirection = Math.random()*360;  
+    rotSpeed = Math.random()*2-1;
   } 
   public void setX(int x) {
     myCenterX = x;
@@ -290,7 +292,10 @@ class Asteroid extends Floater
   public double getPointDirection() {
     return myPointDirection;
   }
+  public void move()
+  {
+    myDirectionX = myDirectionY = rotSpeed;
+    myCenterX = myCenterX + rotSpeed;
+    myCenterY = myCenterY + rotSpeed;
+  }
 }
-
-
-
