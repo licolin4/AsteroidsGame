@@ -41,7 +41,7 @@ public void draw()
       isHyperspace = false;
     }
   }
-  if(keyPressed == true && key == ' ') 
+  if(keyPressed == true && key == 'h') 
     countDown = 60;
   bob.show();
   bob.move();
@@ -118,7 +118,7 @@ void keyPressed()
   if(key == 'w') isAccelerating = true;
   if(key == 'a') isRotatingLeft = true;
   if(key == 'd') isRotatingRight = true;
-  if(key == ' ')
+  if(key == 'h')
   {
     bob.setX((int)(Math.random() * width));
     bob.setY((int)(Math.random() * height));
@@ -237,6 +237,7 @@ interface Star
 }
 class Asteroid extends Floater
 {
+  private double nDegreesOfRotation;
   private double rotSpeed;
   public Asteroid()
   {
@@ -261,6 +262,7 @@ class Asteroid extends Floater
     myDirectionX = myDirectionY = 0; //holds x and y coordinates of the vector for direction of travel
     myPointDirection = Math.random()*360;  
     rotSpeed = Math.random()*2-1;
+    nDegreesOfRotation = myPointDirection*(Math.PI/180);
   } 
   public void setX(int x) {
     myCenterX = x;
@@ -294,7 +296,7 @@ class Asteroid extends Floater
   }
   public void move()
   {
-    myDirectionX = myDirectionY = rotSpeed;
+    myDirectionX = myDirectionY = nDegreesOfRotation;
     myCenterX = myCenterX + rotSpeed;
     myCenterY = myCenterY + rotSpeed;
   }
