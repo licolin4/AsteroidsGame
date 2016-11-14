@@ -1,7 +1,7 @@
 //your variable declarations here
 Star[] stars;
 Spaceship bob;
-Asteroid[] joe;
+ArrayList <Asteroid> joe;
 boolean isHyperspace = false;
 boolean isAccelerating = false;
 boolean isRotatingLeft = false;
@@ -13,10 +13,10 @@ public void setup()
   size(500,500);
   bob = new Spaceship();
   stars = new Star[100];
-  joe = new Asteroid[50];
-  for(int i = 0; i < joe.length; i++)
+  joe = new ArrayList <Asteroid>();
+  for(int i = 0; i < 50; i++)
   {
-    joe[i]= new Asteroid();
+    joe.add(new Asteroid());
   }
   for(int i = 0; i < stars.length; i++)
   {
@@ -48,10 +48,14 @@ public void draw()
   if(isAccelerating == true)bob.accelerate(.03);
   if(isRotatingLeft == true)bob.rotate(-3);
   if(isRotatingRight == true)bob.rotate(3);
-  for(int i = 0; i < joe.length; i++)
+  for(int i = 0; i < joe.size(); i++)
   {
-    joe[i].show();
-    joe[i].move();
+    joe.get(i).show();
+    joe.get(i).move();
+    if(dist(bob.getX(),bob.getY(),joe.get(i).getX(),joe.get(i).getY()) < 20)
+      {
+        joe.remove(i);
+      }
   }
   for(int i = 0; i < stars.length; i++)
   {
