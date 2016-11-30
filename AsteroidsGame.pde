@@ -2,6 +2,7 @@
 Star[] stars;
 Spaceship bob;
 ArrayList <Asteroid> joe;
+ArrayList <Bullet> ben;
 boolean isHyperspace = false;
 boolean isAccelerating = false;
 boolean isRotatingLeft = false;
@@ -14,6 +15,7 @@ public void setup()
   bob = new Spaceship();
   stars = new Star[100];
   joe = new ArrayList <Asteroid>();
+  ben = new ArrayList <Bullet>();
   for(int i = 0; i < 50; i++)
   {
     joe.add(new Asteroid());
@@ -60,6 +62,11 @@ public void draw()
   for(int i = 0; i < stars.length; i++)
   {
     stars[i].show();
+  }
+  for(int i = 0; i < ben.size(); i++)
+  {
+    ben.get(i).show();
+    ben.get(i).move();
   }
 }
 class Spaceship extends Floater  
@@ -138,6 +145,10 @@ void keyReleased()
   if(key == 'w') isAccelerating = false;
   if(key == 'a') isRotatingLeft = false;
   if(key == 'd') isRotatingRight = false;
+}
+void mousePressed()
+{
+  ben.add(new Bullet(bob));
 }
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
@@ -303,5 +314,53 @@ class Asteroid extends Floater
     myDirectionX = myDirectionY = nDegreesOfRotation;
     myCenterX = myCenterX + rotSpeed;
     myCenterY = myCenterY + rotSpeed;
+  }
+}
+class Bullet extends Floater
+{
+  public Bullet(Spaceship yo)
+  {
+    myColor = color(255);
+    myCenterX = bob.getX();
+    myCenterY = bob.getY(); 
+    myPointDirection = yo.getPointDirection();
+    double dRadians = myPointDirection*(Math.PI/180);
+    myDirectionX = 5 * Math.cos(dRadians) + yo.getDirectionX();
+  }
+  public void setX(int x) {
+  myCenterX = x;
+  }
+  public int getX() {
+    return (int)myCenterX;
+  }
+  public void setY(int y) {
+    myCenterY = y;
+  }
+  public int getY() {
+    return (int)myCenterY;
+  }
+  public void setDirectionX(double x) {
+    myDirectionX = x;
+  }
+  public double getDirectionX() {
+    return myDirectionX;
+  }
+  public void setDirectionY(double y) {
+    myDirectionY = y;
+  }
+  public double getDirectionY() {
+    return myDirectionY;
+  }
+  public void setPointDirection(int degrees) {
+    myPointDirection = degrees;
+  }
+  public double getPointDirection() {
+    return myPointDirection;
+  }
+  public void show()
+  {
+   noStroke();
+   fill(255);
+   ellipse((float)myCenterX,(float)myCenterY,10,5); 
   }
 }
