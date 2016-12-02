@@ -54,10 +54,18 @@ public void draw()
   {
     joe.get(i).show();
     joe.get(i).move();
-    if(dist(bob.getX(),bob.getY(),joe.get(i).getX(),joe.get(i).getY()) < 20)
+  }
+  for(int i = 0; i < joe.size(); i++)
+  {
+    for (int ii = 0; ii < ben.size();ii++)
+    {
+      if(dist(ben.get(ii).getX(),ben.get(ii).getY(),joe.get(i).getX(),joe.get(i).getY()) < 20)
       {
         joe.remove(i);
+        ben.remove(ii);
+        break;
       }
+    }
   }
   for(int i = 0; i < stars.length; i++)
   {
